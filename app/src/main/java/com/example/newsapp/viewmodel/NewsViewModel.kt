@@ -25,54 +25,37 @@ class NewsViewModel(val newsRepo: NewsRepository, application: Application) : An
 
     val _articleResponseLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
     val articleResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _articleResponseLiveData
-
     val pageNumber = 1
     val getSavedNews = newsRepo.getAllSavedNews()
 
     init {
         getBreakingNews("us")
     }
-
-
     fun getBreakingNews(code: String) = viewModelScope.launch {
         checkInternetandBreakingNews(code)
     }
-
     private suspend fun checkInternetandBreakingNews(code: String){
         _articleResponseLiveData.postValue(NetworkResult.Loading())
+        val response = newsRepo.getBreakingNews(code, pageNumber)
         try{
             if (hasInternetConnection()){
-
-                val response = newsRepo.getBreakingNews(code, pageNumber)
-                _articleResponseLiveData.postValue(handleNewsResponse(response))
+                _articleResponseLiveData.value = response
             } else {
-
-                _articleResponseLiveData.postValue(NetworkResult.Error("NO INTERNET CONNECTION"))
+                _articleResponseLiveData.value = response
             }
 
         } catch (t: Throwable){
             when (t){
-                is IOException -> _articleResponseLiveData.postValue(NetworkResult.Error("NETWORK FAILER"))
+                is IOException -> _articleResponseLiveData.postValue(NetworkResult.Error("NETWORK FAILED"))
                 else -> _articleResponseLiveData.postValue(NetworkResult.Error("Conversion Error"))
             }
         }
     }
 
-    private fun handleNewsResponse(response: Response<ArticleResponse>): NetworkResult<ArticleResponse>? {
-        if (response.isSuccessful){
-            response.body()?.let { resultresponse->
-                return NetworkResult.Success(resultresponse)
-            }
-        }
-
-        return NetworkResult.Error(response.message())
-    }
     fun getCategory(cat: String) = viewModelScope.launch {
-
         _articleResponseLiveData.postValue(NetworkResult.Loading())
         val response = newsRepo.getCategoryNews(cat)
-
-        _articleResponseLiveData.postValue(handleNewsResponse(response))
+        _articleResponseLiveData.value = response
     }
     // checking connectivity
     private fun hasInternetConnection(): Boolean {

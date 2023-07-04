@@ -36,9 +36,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:id="@+id/hsv"
-
         android:layout_marginBottom="15dp">
-
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/breakingImage"

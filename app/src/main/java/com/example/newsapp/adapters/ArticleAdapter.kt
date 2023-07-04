@@ -91,7 +91,6 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
     }
 
 }
-
 interface ItemListener {
     fun onItemClicked(position: Int, articleRequest: ArticleRequest)
 }

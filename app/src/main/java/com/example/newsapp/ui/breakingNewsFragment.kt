@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -47,71 +45,35 @@ class breakingNewsFragment : Fragment(), ItemListener{
         val repository = NewsRepository(dao)
         val factory = NewsViewModelFac(repository, requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[NewsViewModel::class.java]
-
-
         rv = view.findViewById(R.id.rvBreakingNews)
         pb = view.findViewById(R.id.paginationProgressBar)
 
         val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val nInfo = cm.activeNetworkInfo
-        if (nInfo !=null && nInfo.isConnected){
-
+        val netInfo = cm.activeNetworkInfo
+        if (netInfo !=null && netInfo.isConnected){
             setUpRecyclerView()
-            loadBreakingNews()
-
-
-
+            bindObservers()
         }
     }
-
-    private fun loadCategoryNews() {
-
-        viewModel._articleResponseLiveData.observe(viewLifecycleOwner, Observer {response->
-            when (response){
+    private fun bindObservers() {
+        viewModel.articleResponseLiveData.observe(viewLifecycleOwner, Observer {
+            when (it){
                 is NetworkResult.Success->{
                     hideProgressBar()
-                    response.data?.let{newsresponse->
+                    it.data?.let{newsresponse->
                         addingResponselist = newsresponse.articles as ArrayList<ArticleRequest>
                         newsAdapter.setlist(newsresponse.articles)
                     }
                 }
                 is NetworkResult.Error->{
                     hideProgressBar()
-                    response.message?.let{messsage->
+                    it.message?.let{messsage->
                         Log.i("BREAKING FRAG", messsage.toString())
-
                     }
                 }
                 is NetworkResult.Loading->{
                     showProgressBar()
                 }
-
-            }
-        })
-    }
-
-    private fun loadBreakingNews() {
-
-        viewModel._articleResponseLiveData.observe(viewLifecycleOwner, Observer {response->
-            when (response){
-                is NetworkResult.Success->{
-                    hideProgressBar()
-                    response.data?.let{newsresponse->
-                        addingResponselist = newsresponse.articles as ArrayList<ArticleRequest>
-                        newsAdapter.setlist(newsresponse.articles)
-                    }
-                }
-                is NetworkResult.Error->{
-                    hideProgressBar()
-                    response.message?.let{messsage->
-                        Log.i("BREAKING FRAG", messsage.toString())
-
-                    }
-                }
-                is NetworkResult.Loading->{
-                    showProgressBar()
-                }
-
             }
         })
     }
