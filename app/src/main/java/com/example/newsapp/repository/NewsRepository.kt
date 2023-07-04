@@ -52,7 +52,7 @@ class NewsRepository(val newsDao: NewsDao) {
     suspend fun getCategoryNews(code: String): NetworkResult<ArticleResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                val response =  RetrofitInstance.api.getByCategory(code)
+                val response = RetrofitInstance.api.getByCategory(code)
                 if (response.isSuccessful && response.body() != null) {
                     NetworkResult.Success(response.body()!!)
                 } else if (response.errorBody() != null) {
@@ -66,6 +66,6 @@ class NewsRepository(val newsDao: NewsDao) {
                 NetworkResult.Error("Network request failed: ${e.message}")
             }
         }
-
     }
+
 }
