@@ -1,6 +1,6 @@
 package com.example.newsapp.service
 
-import com.example.newsapp.utils.Utils
+import com.example.newsapp.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +17,7 @@ class RetrofitInstance {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder().addInterceptor(logging).build()
 
-            Retrofit.Builder().baseUrl(Utils.BASE_URL).
+            Retrofit.Builder().baseUrl(Constants.BASE_URL).
             addConverterFactory(GsonConverterFactory.create()).
             client(client).build()
 

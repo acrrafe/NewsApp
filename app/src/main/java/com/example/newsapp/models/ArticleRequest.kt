@@ -1,7 +1,7 @@
 package com.example.newsapp.models
 
 // FETCH DATA FROM API MODEL
-data class UserRequest(
+data class ArticleRequest(
     val author: String,
     val content: String,
     val description: String,

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 // SAVE DATA FROM API MODEL
 @Entity(tableName = "NEWSARTICLE")
-data class SavedRequest(
+data class SavedArticle(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int,

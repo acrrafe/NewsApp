@@ -2,22 +2,22 @@ package com.example.newsapp.repository
 
 
 import androidx.lifecycle.LiveData
-import com.example.newsapp.models.SavedRequest
+import com.example.newsapp.models.SavedArticle
 import com.example.newsapp.room.NewsDao
 import com.example.newsapp.service.RetrofitInstance
 
 class NewsRepository(val newsDao: NewsDao) {
 
-    suspend fun insertNews(savedRequest: SavedRequest) {
-        newsDao.saveNews(savedRequest)
+    suspend fun insertNews(savedArticle: SavedArticle) {
+        newsDao.saveNews(savedArticle)
     }
 
-    fun getAllSavedNews() : LiveData<List<SavedRequest>> {
+    fun getAllSavedNews() : LiveData<List<SavedArticle>> {
         return newsDao.getAllNews()
     }
 
 
-    fun getNewsByid() : LiveData<SavedRequest> {
+    fun getNewsByid() : LiveData<SavedArticle> {
         return newsDao.getNewsByID()
     }
 

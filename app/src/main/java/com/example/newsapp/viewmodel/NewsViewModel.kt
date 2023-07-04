@@ -11,9 +11,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.newsapp.models.SavedRequest
-import com.example.newsapp.models.UserRequest
-import com.example.newsapp.models.UserResponse
+import com.example.newsapp.models.SavedArticle
+import com.example.newsapp.models.ArticleResponse
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.room.NewsApplication
 import com.example.newsapp.utils.NetworkResult
@@ -24,19 +23,14 @@ import java.io.IOException
 
 class NewsViewModel(val newsRepo: NewsRepository, application: Application) : AndroidViewModel(application) {
 
-    private val _userResponseLiveData = MutableLiveData<NetworkResult<UserResponse>>()
-    val userResponseLiveData: LiveData<NetworkResult<UserResponse>> get() = _userResponseLiveData
-
-    val breakingNews : MutableLiveData<NetworkResult<UserResponse>> = MutableLiveData()
+    val _articleResponseLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
+    val articleResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _articleResponseLiveData
 
     val pageNumber = 1
-
-    val categoryNews : MutableLiveData<NetworkResult<UserResponse>> = MutableLiveData()
-
     val getSavedNews = newsRepo.getAllSavedNews()
 
     init {
-        getBreakingNews("ph")
+        getBreakingNews("us")
     }
 
 
@@ -45,26 +39,26 @@ class NewsViewModel(val newsRepo: NewsRepository, application: Application) : An
     }
 
     private suspend fun checkInternetandBreakingNews(code: String){
-        breakingNews.postValue(NetworkResult.Loading())
+        _articleResponseLiveData.postValue(NetworkResult.Loading())
         try{
             if (hasInternetConnection()){
 
                 val response = newsRepo.getBreakingNews(code, pageNumber)
-                breakingNews.postValue(handleNewsResponse(response))
+                _articleResponseLiveData.postValue(handleNewsResponse(response))
             } else {
 
-                breakingNews.postValue(NetworkResult.Error("NO INTERNET CONNECTION"))
+                _articleResponseLiveData.postValue(NetworkResult.Error("NO INTERNET CONNECTION"))
             }
 
         } catch (t: Throwable){
             when (t){
-                is IOException -> breakingNews.postValue(NetworkResult.Error("NETWORK FAILER"))
-                else -> breakingNews.postValue(NetworkResult.Error("Conversion Error"))
+                is IOException -> _articleResponseLiveData.postValue(NetworkResult.Error("NETWORK FAILER"))
+                else -> _articleResponseLiveData.postValue(NetworkResult.Error("Conversion Error"))
             }
         }
     }
 
-    private fun handleNewsResponse(response: Response<UserResponse>): NetworkResult<UserResponse>? {
+    private fun handleNewsResponse(response: Response<ArticleResponse>): NetworkResult<ArticleResponse>? {
         if (response.isSuccessful){
             response.body()?.let { resultresponse->
                 return NetworkResult.Success(resultresponse)
@@ -75,10 +69,10 @@ class NewsViewModel(val newsRepo: NewsRepository, application: Application) : An
     }
     fun getCategory(cat: String) = viewModelScope.launch {
 
-        categoryNews.postValue(NetworkResult.Loading())
+        _articleResponseLiveData.postValue(NetworkResult.Loading())
         val response = newsRepo.getCategoryNews(cat)
 
-        categoryNews.postValue(handleNewsResponse(response))
+        _articleResponseLiveData.postValue(handleNewsResponse(response))
     }
     // checking connectivity
     private fun hasInternetConnection(): Boolean {
@@ -108,11 +102,11 @@ class NewsViewModel(val newsRepo: NewsRepository, application: Application) : An
     }
 
     // get category
-    fun insertArticle (savedRequest: SavedRequest) {
-        insertNews(savedRequest)
+    fun insertArticle (savedArticle: SavedArticle) {
+        insertNews(savedArticle)
     }
-    fun insertNews(savedRequest: SavedRequest) = viewModelScope.launch(Dispatchers.IO) {
-        newsRepo.insertNews(savedRequest)
+    fun insertNews(savedArticle: SavedArticle) = viewModelScope.launch(Dispatchers.IO) {
+        newsRepo.insertNews(savedArticle)
     }
     fun deleteAllArtciles() {
         deleteAll()

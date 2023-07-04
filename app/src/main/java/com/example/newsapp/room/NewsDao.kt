@@ -2,20 +2,21 @@ package com.example.newsapp.room
 
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.newsapp.models.SavedRequest
-
+import com.example.newsapp.models.SavedArticle
+@Dao
 interface NewsDao {
 
     @Insert()
-    suspend fun saveNews(saveRequest: SavedRequest)
+    suspend fun saveNews(saveRequest: SavedArticle)
 
     @Query("SELECT * FROM NEWSARTICLE")
-    fun getNewsByID() : LiveData<SavedRequest>
+    fun getNewsByID() : LiveData<SavedArticle>
 
     @Query("SELECT * FROM NEWSARTICLE")
-    fun getAllNews() : LiveData<List<SavedRequest>>
+    fun getAllNews() : LiveData<List<SavedArticle>>
 
     @Query("DELETE FROM NEWSARTICLE")
     fun deleteAllNews()

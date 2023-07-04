@@ -7,10 +7,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.newsapp.models.ClassConvertor
-import com.example.newsapp.models.SavedRequest
+import com.example.newsapp.models.SavedArticle
 
 
-@Database(entities = [SavedRequest::class], version = 1)
+@Database(entities = [SavedArticle::class], version = 1)
 @TypeConverters(ClassConvertor::class)
 abstract class NewsDatabase : RoomDatabase() {
 
