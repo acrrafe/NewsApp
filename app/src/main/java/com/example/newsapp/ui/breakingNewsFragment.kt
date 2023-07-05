@@ -30,8 +30,11 @@ class breakingNewsFragment : Fragment(), ItemListener{
     lateinit var viewModel : NewsViewModel
     lateinit  var newsAdapter : ArticleAdapter
 
+    private var isClicked: Boolean? = null
+
     private var _binding : FragmentBreakingNewsBinding? = null
     private val binding get() = _binding!!
+
     var addingResponselist = arrayListOf<ArticleRequest>()
 
     override fun onCreateView(
@@ -52,8 +55,33 @@ class breakingNewsFragment : Fragment(), ItemListener{
         val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
         if (netInfo !=null && netInfo.isConnected){
+            isClicked = true
             setUpRecyclerView()
             bindObservers()
+        }
+        binding.breakingImage.setOnClickListener{
+            isClicked = true
+            viewModel.getBreakingNews("us")
+            bindObservers()
+        }
+
+        binding.businessImage.setOnClickListener{
+            isClicked = true
+            viewModel.getCategory("business")
+            bindObservers()
+            setUpRecyclerView()
+        }
+        binding.sportsImage.setOnClickListener{
+            isClicked = true
+            viewModel.getCategory("sports")
+            bindObservers()
+            setUpRecyclerView()
+        }
+        binding.techImage.setOnClickListener{
+            isClicked = true
+            viewModel.getCategory("technology")
+            bindObservers()
+            setUpRecyclerView()
         }
 
     }
