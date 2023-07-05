@@ -16,11 +16,9 @@ class NewsRepository(val newsDao: NewsDao) {
     suspend fun insertNews(savedArticle: SavedArticle) {
         newsDao.saveNews(savedArticle)
     }
-
     fun getAllSavedNews() : LiveData<List<SavedArticle>> {
         return newsDao.getAllNews()
     }
-
 
     fun getNewsByid() : LiveData<SavedArticle> {
         return newsDao.getNewsByID()

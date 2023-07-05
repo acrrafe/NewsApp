@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.ArticleAdapter
 import com.example.newsapp.adapters.ItemListener
+import com.example.newsapp.databinding.FragmentBreakingNewsBinding
 import com.example.newsapp.models.ArticleRequest
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.room.NewsDatabase
@@ -28,8 +29,9 @@ class breakingNewsFragment : Fragment(), ItemListener{
 
     lateinit var viewModel : NewsViewModel
     lateinit  var newsAdapter : ArticleAdapter
-    lateinit var rv : RecyclerView
-    lateinit var pb : ProgressBar
+
+    private var _binding : FragmentBreakingNewsBinding? = null
+    private val binding get() = _binding!!
     var addingResponselist = arrayListOf<ArticleRequest>()
 
     override fun onCreateView(
@@ -37,7 +39,8 @@ class breakingNewsFragment : Fragment(), ItemListener{
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_breaking_news, container, false)
+        _binding = FragmentBreakingNewsBinding.inflate(inflater, container, false)
+        return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,8 +48,6 @@ class breakingNewsFragment : Fragment(), ItemListener{
         val repository = NewsRepository(dao)
         val factory = NewsViewModelFac(repository, requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[NewsViewModel::class.java]
-        rv = view.findViewById(R.id.rvBreakingNews)
-        pb = view.findViewById(R.id.paginationProgressBar)
 
         val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
@@ -54,6 +55,7 @@ class breakingNewsFragment : Fragment(), ItemListener{
             setUpRecyclerView()
             bindObservers()
         }
+
     }
     private fun bindObservers() {
         viewModel.articleResponseLiveData.observe(viewLifecycleOwner, Observer {
@@ -79,15 +81,15 @@ class breakingNewsFragment : Fragment(), ItemListener{
     }
 
     fun showProgressBar(){
-        pb.visibility = View.VISIBLE
+        binding.paginationProgressBar.visibility = View.VISIBLE
     }
     fun hideProgressBar(){
-        pb.visibility = View.INVISIBLE
+        binding.paginationProgressBar.visibility = View.INVISIBLE
     }
     private fun setUpRecyclerView() {
         newsAdapter = ArticleAdapter()
         newsAdapter.setItemClickListener(this)
-        rv.apply {
+        binding.rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         }
