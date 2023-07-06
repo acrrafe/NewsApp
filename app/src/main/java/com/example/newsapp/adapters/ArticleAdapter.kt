@@ -36,9 +36,7 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
 
         val requestOption = RequestOptions()
 
-
         holder.itemView.apply {
-
             // FOR LOADING OF IMAGE
             Glide.with(this).load(article.urlToImage).apply(requestOption).listener(object:
                 RequestListener<Drawable> {

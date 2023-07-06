@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorDestinationBuilder
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
@@ -89,30 +91,23 @@ class breakingNewsFragment : Fragment(), ItemListener{
         viewModel.articleResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it){
                 is NetworkResult.Success->{
-                    hideProgressBar()
+                    binding.paginationProgressBar.visibility = View.INVISIBLE
                     it.data?.let{newsresponse->
                         addingResponselist = newsresponse.articles as ArrayList<ArticleRequest>
                         newsAdapter.setlist(newsresponse.articles)
                     }
                 }
                 is NetworkResult.Error->{
-                    hideProgressBar()
+                    binding.paginationProgressBar.visibility = View.INVISIBLE
                     it.message?.let{messsage->
                         Log.i("BREAKING FRAG", messsage.toString())
                     }
                 }
                 is NetworkResult.Loading->{
-                    showProgressBar()
+                    binding.paginationProgressBar.visibility = View.VISIBLE
                 }
             }
         })
-    }
-
-    fun showProgressBar(){
-        binding.paginationProgressBar.visibility = View.VISIBLE
-    }
-    fun hideProgressBar(){
-        binding.paginationProgressBar.visibility = View.INVISIBLE
     }
     private fun setUpRecyclerView() {
         newsAdapter = ArticleAdapter()
@@ -123,6 +118,12 @@ class breakingNewsFragment : Fragment(), ItemListener{
         }
     }
     override fun onItemClicked(position: Int, articleRequest: ArticleRequest) {
-        // TODO: Implement Navigator Controll
+        val action = breakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(articleRequest)
+        findNavController().navigate(action)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

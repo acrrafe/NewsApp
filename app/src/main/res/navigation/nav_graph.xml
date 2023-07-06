@@ -37,5 +37,7 @@
         <action
             android:id="@+id/action_articleFragment_to_breakingNewsFragment"
             app:destination="@id/breakingNewsFragment" />
+        <argument android:name="article"
+            app:argType="com.example.newsapp.models.ArticleRequest" />
     </fragment>
 </navigation>
