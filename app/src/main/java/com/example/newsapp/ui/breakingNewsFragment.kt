@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -26,8 +27,8 @@ import com.example.newsapp.viewmodel.NewsViewModelFac
 
 class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
 
-
     lateinit var viewModel : NewsViewModel
+
     lateinit  var newsAdapter : ArticleAdapter
     lateinit  var newsCategoryAdapter : CategoryArticleAdapter
 
@@ -47,10 +48,12 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val dao = NewsDatabase.getInstance(requireActivity()).newsDao
         val repository = NewsRepository(dao)
         val factory = NewsViewModelFac(repository, requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[NewsViewModel::class.java]
+
         val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
         if (netInfo !=null && netInfo.isConnected){
@@ -59,6 +62,8 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
             setUpCategoryRecyclerView()
             bindBreakingObservers()
             bindCategoryObservers()
+        }else{
+            Toast.makeText(activity, "No Internet", Toast.LENGTH_SHORT).show()
         }
         binding.businessBtn.setOnClickListener{
             isClicked = true
@@ -100,7 +105,7 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
 
     // UPDATE THE BREAKING NEWS LIVE DATA IN VIEW MODEL
     private fun bindBreakingObservers() {
-        viewModel.articleResponseLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.breakingNewsResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it){
                 is NetworkResult.Success->{
                     binding.paginationProgressBar.visibility = View.INVISIBLE
@@ -123,7 +128,7 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
     }
     // UPDATE THE CATEGORY NEWS LIVE DATA IN VIEW MODEL
     private fun bindCategoryObservers() {
-        viewModel.articleCategoryResponseLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.categoryResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it){
                 is NetworkResult.Success->{
                     binding.paginationProgressBar.visibility = View.INVISIBLE

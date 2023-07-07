@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
-class NewsRepository(val newsDao: NewsDao) {
+class NewsRepository(private val newsDao: NewsDao) {
 
     suspend fun insertNews(savedArticle: SavedArticle) {
         newsDao.saveNews(savedArticle)

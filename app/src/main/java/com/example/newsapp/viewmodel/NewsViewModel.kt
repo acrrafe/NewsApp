@@ -3,10 +3,6 @@
 package com.example.newsapp.viewmodel
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,45 +10,42 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsapp.models.SavedArticle
 import com.example.newsapp.models.ArticleResponse
 import com.example.newsapp.repository.NewsRepository
-import com.example.newsapp.room.NewsApplication
 import com.example.newsapp.utils.NetworkResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
-import java.io.IOException
 
-class NewsViewModel(val newsRepo: NewsRepository, application: Application) : AndroidViewModel(application) {
-    val _articleResponseLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
-    val articleResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _articleResponseLiveData
-    val _articleCategoryResponseLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
-    val articleCategoryResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _articleCategoryResponseLiveData
-    val pageNumber = 1
-    val getSavedNews = newsRepo.getAllSavedNews()
+class NewsViewModel(private val newsRepository: NewsRepository, application: Application) : AndroidViewModel(application) {
+    private val _breakingNewsResponseLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
+    val breakingNewsResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _breakingNewsResponseLiveData
+    private val _categoryNewsLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
+    val categoryResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _categoryNewsLiveData
+    private val pageNumber = 1
+    val getSavedNews = newsRepository.getAllSavedNews()
     init {
         getBreakingNews("us")
         getCategory("business")
     }
-    fun getBreakingNews(code: String) = viewModelScope.launch {
-        _articleResponseLiveData.postValue(NetworkResult.Loading())
-        val response = newsRepo.getBreakingNews(code, pageNumber)
-        _articleResponseLiveData.value = response
+    private fun getBreakingNews(countryCode: String) = viewModelScope.launch {
+        _breakingNewsResponseLiveData.postValue(NetworkResult.Loading())
+        val response = newsRepository.getBreakingNews(countryCode, pageNumber)
+        _breakingNewsResponseLiveData.value = response
     }
-    fun getCategory(cat: String) = viewModelScope.launch {
-        _articleCategoryResponseLiveData.postValue(NetworkResult.Loading())
-        val response = newsRepo.getCategoryNews(cat)
-        _articleCategoryResponseLiveData.value = response
+     fun getCategory(category: String) = viewModelScope.launch {
+        _categoryNewsLiveData.postValue(NetworkResult.Loading())
+        val response = newsRepository.getCategoryNews(category)
+        _categoryNewsLiveData.value = response
     }
-    fun insertArticle (savedArticle: SavedArticle) {
+    private fun insertArticle (savedArticle: SavedArticle) {
         insertNews(savedArticle)
     }
-    fun insertNews(savedArticle: SavedArticle) = viewModelScope.launch(Dispatchers.IO) {
-        newsRepo.insertNews(savedArticle)
+    private fun insertNews(savedArticle: SavedArticle) = viewModelScope.launch(Dispatchers.IO) {
+        newsRepository.insertNews(savedArticle)
     }
-    fun deleteAllArtciles() {
+    private fun deleteAllArticles() {
         deleteAll()
     }
-    fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
-        newsRepo.deleteAll()
+    private fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
+        newsRepository.deleteAll()
     }
 
 }
