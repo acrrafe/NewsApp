@@ -8,15 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.newsapp.R
 import com.example.newsapp.adapters.ArticleAdapter
+import com.example.newsapp.adapters.CategoryArticleAdapter
+import com.example.newsapp.adapters.ItemClickListener
 import com.example.newsapp.adapters.ItemListener
 import com.example.newsapp.databinding.FragmentBreakingNewsBinding
 import com.example.newsapp.models.ArticleRequest
@@ -26,11 +24,12 @@ import com.example.newsapp.utils.NetworkResult
 import com.example.newsapp.viewmodel.NewsViewModel
 import com.example.newsapp.viewmodel.NewsViewModelFac
 
-class breakingNewsFragment : Fragment(), ItemListener{
+class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
 
 
     lateinit var viewModel : NewsViewModel
     lateinit  var newsAdapter : ArticleAdapter
+    lateinit  var newsCategoryAdapter : CategoryArticleAdapter
 
     private var isClicked: Boolean? = null
 
@@ -43,7 +42,6 @@ class breakingNewsFragment : Fragment(), ItemListener{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentBreakingNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,41 +51,55 @@ class breakingNewsFragment : Fragment(), ItemListener{
         val repository = NewsRepository(dao)
         val factory = NewsViewModelFac(repository, requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[NewsViewModel::class.java]
-
         val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = cm.activeNetworkInfo
         if (netInfo !=null && netInfo.isConnected){
             isClicked = true
-            setUpRecyclerView()
-            bindObservers()
+            setUpBreakinngRecyclerView()
+            setUpCategoryRecyclerView()
+            bindBreakingObservers()
+            bindCategoryObservers()
         }
-        binding.breakingImage.setOnClickListener{
-            isClicked = true
-            viewModel.getBreakingNews("us")
-            bindObservers()
-        }
-
-        binding.businessImage.setOnClickListener{
+        binding.businessBtn.setOnClickListener{
             isClicked = true
             viewModel.getCategory("business")
-            bindObservers()
-            setUpRecyclerView()
+            setUpCategoryRecyclerView()
+            bindCategoryObservers()
         }
-        binding.sportsImage.setOnClickListener{
+        binding.sportBtn.setOnClickListener{
             isClicked = true
             viewModel.getCategory("sports")
-            bindObservers()
-            setUpRecyclerView()
+            setUpCategoryRecyclerView()
+            bindCategoryObservers()
         }
-        binding.techImage.setOnClickListener{
+        binding.techBtn.setOnClickListener{
             isClicked = true
             viewModel.getCategory("technology")
-            bindObservers()
-            setUpRecyclerView()
+            setUpCategoryRecyclerView()
+            bindCategoryObservers()
         }
-
+        binding.educBtn.setOnClickListener{
+            isClicked = true
+            viewModel.getCategory("education")
+            setUpCategoryRecyclerView()
+            bindCategoryObservers()
+        }
+        binding.politicsBtn.setOnClickListener{
+            isClicked = true
+            viewModel.getCategory("politics")
+            setUpCategoryRecyclerView()
+            bindCategoryObservers()
+        }
+        binding.cryptoBtn.setOnClickListener{
+            isClicked = true
+            viewModel.getCategory("crypto")
+            setUpCategoryRecyclerView()
+            bindCategoryObservers()
+        }
     }
-    private fun bindObservers() {
+
+    // UPDATE THE BREAKING NEWS LIVE DATA IN VIEW MODEL
+    private fun bindBreakingObservers() {
         viewModel.articleResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it){
                 is NetworkResult.Success->{
@@ -109,12 +121,45 @@ class breakingNewsFragment : Fragment(), ItemListener{
             }
         })
     }
-    private fun setUpRecyclerView() {
+    // UPDATE THE CATEGORY NEWS LIVE DATA IN VIEW MODEL
+    private fun bindCategoryObservers() {
+        viewModel.articleCategoryResponseLiveData.observe(viewLifecycleOwner, Observer {
+            when (it){
+                is NetworkResult.Success->{
+                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    it.data?.let{newsresponse->
+                        addingResponselist = newsresponse.articles as ArrayList<ArticleRequest>
+                        newsCategoryAdapter.setCategorylist(newsresponse.articles)
+                    }
+                }
+                is NetworkResult.Error->{
+                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    it.message?.let{messsage->
+                        Log.i("BREAKING FRAG", messsage.toString())
+                    }
+                }
+                is NetworkResult.Loading->{
+                    binding.paginationProgressBar.visibility = View.VISIBLE
+                }
+            }
+        })
+    }
+    private fun setUpBreakinngRecyclerView() {
         newsAdapter = ArticleAdapter()
         newsAdapter.setItemClickListener(this)
         binding.rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        }
+
+    }
+    private fun setUpCategoryRecyclerView() {
+        newsCategoryAdapter = CategoryArticleAdapter()
+        newsCategoryAdapter.setItemCategoryClickListener(this)
+
+        binding.rvCategoryNews.apply {
+            adapter = newsCategoryAdapter
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         }
     }
     override fun onItemClicked(position: Int, articleRequest: ArticleRequest) {

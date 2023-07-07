@@ -24,10 +24,13 @@ import java.io.IOException
 class NewsViewModel(val newsRepo: NewsRepository, application: Application) : AndroidViewModel(application) {
     val _articleResponseLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
     val articleResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _articleResponseLiveData
+    val _articleCategoryResponseLiveData = MutableLiveData<NetworkResult<ArticleResponse>>()
+    val articleCategoryResponseLiveData: LiveData<NetworkResult<ArticleResponse>> get() = _articleCategoryResponseLiveData
     val pageNumber = 1
     val getSavedNews = newsRepo.getAllSavedNews()
     init {
         getBreakingNews("us")
+        getCategory("business")
     }
     fun getBreakingNews(code: String) = viewModelScope.launch {
         _articleResponseLiveData.postValue(NetworkResult.Loading())
@@ -35,12 +38,10 @@ class NewsViewModel(val newsRepo: NewsRepository, application: Application) : An
         _articleResponseLiveData.value = response
     }
     fun getCategory(cat: String) = viewModelScope.launch {
-        _articleResponseLiveData.postValue(NetworkResult.Loading())
+        _articleCategoryResponseLiveData.postValue(NetworkResult.Loading())
         val response = newsRepo.getCategoryNews(cat)
-
-        _articleResponseLiveData.value = response
+        _articleCategoryResponseLiveData.value = response
     }
-    // get category
     fun insertArticle (savedArticle: SavedArticle) {
         insertNews(savedArticle)
     }

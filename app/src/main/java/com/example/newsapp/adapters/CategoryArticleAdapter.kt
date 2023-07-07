@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -21,19 +19,17 @@ import com.example.newsapp.R
 import com.example.newsapp.models.ArticleRequest
 import com.example.newsapp.utils.Constants
 
-class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
-    var newsList = listOf<ArticleRequest>()
-    private var itemListener : ItemListener? = null
+class CategoryArticleAdapter : RecyclerView.Adapter<ArticleCategoryHolder>() {
+    var newsCategoryList = listOf<ArticleRequest>()
+    private var itemListener : ItemClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.news_item_list, parent, false)
-        return ArticleHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleCategoryHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.news_category_item_list, parent, false)
+        return ArticleCategoryHolder(view)
     }
-    override fun onBindViewHolder(holder: ArticleHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArticleCategoryHolder, position: Int) {
 
-        val article = newsList[position]
-
+        val article = newsCategoryList[position]
         val requestOption = RequestOptions()
 
         holder.itemView.apply {
@@ -46,7 +42,6 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
                     target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    holder.pb.visibility = View.VISIBLE
                     return true
                 }
 
@@ -57,7 +52,6 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    holder.pb.visibility = View.GONE
                     return false
                 }
 
@@ -67,39 +61,35 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
             holder.tvSource.setText(article.source!!.name)
             holder.tvPubslishedAt.setText(Constants.DateFormat(article.publishedAt))
         }
-        // storing the position and articles in the click event
-        // in case we go to another framgnet
+
         holder.itemView.setOnClickListener {
             itemListener?.onItemClicked(position, article)
         }
     }
     override fun getItemCount(): Int {
-        return newsList.size
+        return newsCategoryList.size
     }
 
-    fun setItemClickListener(itemListener : ItemListener){
-        this.itemListener = itemListener
+    fun setItemCategoryClickListener(itemClickListener : ItemClickListener){
+        this.itemListener = itemClickListener
 
     }
     @SuppressLint("NotifyDataSetChanged")
-    fun setlist(articles: List<ArticleRequest>) {
-        this.newsList = articles
+    fun setCategorylist(articles: List<ArticleRequest>) {
+        this.newsCategoryList = articles
         notifyDataSetChanged()
     }
 
 }
-interface ItemListener {
+interface ItemClickListener {
     fun onItemClicked(position: Int, articleRequest: ArticleRequest)
 }
 
 
 
-
-
-class ArticleHolder(itemView: View) : ViewHolder(itemView){
-    val textTitle : TextView = itemView.findViewById(R.id.tvTitle)
-    val tvSource : TextView = itemView.findViewById(R.id.tvSource)
-    val tvPubslishedAt : TextView = itemView.findViewById(R.id.tvPublishedAt)
-    val imageView : ImageView = itemView.findViewById(R.id.ivArticleImage)
-    val pb : ProgressBar = itemView.findViewById(R.id.pbImage)
+class ArticleCategoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    val textTitle : TextView = itemView.findViewById(R.id.tvCategoryTitle)
+    val tvSource : TextView = itemView.findViewById(R.id.tvCategorySource)
+    val tvPubslishedAt : TextView = itemView.findViewById(R.id.tvCategoryPublishedAt)
+    val imageView : ImageView = itemView.findViewById(R.id.ivArticleCategoryImage)
 }
