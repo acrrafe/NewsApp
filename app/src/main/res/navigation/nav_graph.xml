@@ -13,6 +13,15 @@
         <action
             android:id="@+id/action_breakingNewsFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_breakingNewsFragment_to_fragmentDiscovery"
+            app:destination="@id/fragmentDiscovery" />
+        <action
+            android:id="@+id/action_breakingNewsFragment_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
+        <action
+            android:id="@+id/action_breakingNewsFragment_to_savedNewsFragment"
+            app:destination="@id/savedNewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
@@ -25,6 +34,12 @@
         <action
             android:id="@+id/action_savedNewsFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_savedNewsFragment_to_fragmentDiscovery"
+            app:destination="@id/fragmentDiscovery" />
+        <action
+            android:id="@+id/action_savedNewsFragment_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
@@ -39,5 +54,32 @@
             app:destination="@id/breakingNewsFragment" />
         <argument android:name="article"
             app:argType="com.example.newsapp.models.ArticleRequest" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDiscovery"
+        android:name="com.example.newsapp.fragmentDiscovery"
+        android:label="fragment_discovery"
+        tools:layout="@layout/fragment_discovery" >
+        <action
+            android:id="@+id/action_fragmentDiscovery_to_breakingNewsFragment"
+            app:destination="@id/breakingNewsFragment" />
+        <action
+            android:id="@+id/action_fragmentDiscovery_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_fragmentDiscovery_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:name="com.example.newsapp.fragmentSettings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_fragmentSettings_to_breakingNewsFragment"
+            app:destination="@id/breakingNewsFragment" />
+        <action
+            android:id="@+id/action_fragmentSettings_to_savedNewsFragment"
+            app:destination="@id/savedNewsFragment" />
     </fragment>
 </navigation>

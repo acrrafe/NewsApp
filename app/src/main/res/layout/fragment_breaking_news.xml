@@ -1,145 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tvBreakingNews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:text="Breaking News"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/paginationProgressBar"
-            style="@style/SpinKitView.ThreeBounce"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:layout_marginTop="300dp"
-            android:visibility="gone"
-            app:SpinKit_Color="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"  />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBreakingNews"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvBreakingNews"
-            android:clipToPadding="false"
-            android:paddingBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvBreakingNews" />
-
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rvBreakingNews"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/rvCategoryNews"
-            android:layout_margin="10dp"
-            android:scrollbars="none">
-            <LinearLayout
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvBreakingNews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/businessBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="14sp"
-                    android:padding="10dp"
-                    android:text="Business"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_business"/>
-                <Button
-                    android:id="@+id/sportBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:text="Sports"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_sport"/>
-                <Button
-                    android:id="@+id/techBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:text="Tech"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_tech"/>
-                <Button
-                    android:id="@+id/educBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:text="Education"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_business"/>
-                <Button
-                    android:id="@+id/politicsBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:text="Politics"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_politics"/>
-                <Button
-                    android:id="@+id/cryptoBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
-                    android:text="Crypto"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                    app:icon="@drawable/ic_business"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:text="Breaking News"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
-        </HorizontalScrollView>
+            <com.github.ybq.android.spinkit.SpinKitView
+                android:id="@+id/paginationProgressBar"
+                style="@style/SpinKitView.ThreeBounce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_marginTop="300dp"
+                android:visibility="gone"
+                app:SpinKit_Color="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCategoryNews"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBreakingNews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvBreakingNews"
+                android:clipToPadding="false"
+                android:paddingBottom="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBreakingNews" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvBreakingNews"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/rvCategoryNews"
+                android:layout_margin="10dp"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/businessBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:textSize="14sp"
+                        android:padding="10dp"
+                        android:text="Business"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_business"/>
+                    <Button
+                        android:id="@+id/sportBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:text="Sports"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_sport"/>
+                    <Button
+                        android:id="@+id/techBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:text="Tech"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_tech"/>
+                    <Button
+                        android:id="@+id/educBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:text="Education"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_business"/>
+                    <Button
+                        android:id="@+id/politicsBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:text="Politics"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_politics"/>
+                    <Button
+                        android:id="@+id/cryptoBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="10dp"
+                        android:text="Crypto"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        app:icon="@drawable/ic_business"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCategoryNews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingBottom="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
+        app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
