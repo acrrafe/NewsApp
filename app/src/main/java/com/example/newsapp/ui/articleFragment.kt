@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentArticleBinding
@@ -13,6 +16,7 @@ import com.example.newsapp.databinding.FragmentBreakingNewsBinding
 import com.example.newsapp.models.Source
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.room.NewsDatabase
+import com.example.newsapp.utils.Constants
 import com.example.newsapp.viewmodel.NewsViewModel
 import com.example.newsapp.viewmodel.NewsViewModelFac
 import java.text.DateFormat
@@ -49,9 +53,12 @@ class articleFragment : Fragment() {
         binding.tvTitle.text = args.article.title
         binding.tvSource.text = args.article.source!!.name
         binding.tvDescription.text = args.article.description
-        binding.tvPublishedAt.text = args.article.publishedAt
-
+        binding.tvPublishedAt.text = Constants.DateFormat(args.article.publishedAt)
         Glide.with(requireActivity()).load(args.article.urlToImage).into(binding.articleImage)
+
+        binding.toolbar.backIcon.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
     }
 

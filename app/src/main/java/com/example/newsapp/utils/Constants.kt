@@ -8,7 +8,7 @@ class Constants {
 
     // COMPANION OBJECT ALLOWS US TO use the class without having to create an instance of it
     companion object {
-        const val API_KEY = "INSERT_YOUR_API_KEY_HERE"
+        const val API_KEY = "INSERT_YOUR_API_KEY"
         const val BASE_URL = "https://newsapi.org"
 
         fun DateFormat(oldstringDate: String?): String? {

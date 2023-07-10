@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
@@ -103,30 +104,6 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
             bindCategoryObservers()
         }
 
-        binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    // Handle navigation home selection
-                    true
-                }
-                R.id.navigation_discovery -> {
-                    // Handle navigation discovery selection
-                    findNavController().navigate(R.id.action_breakingNewsFragment_to_fragmentDiscovery)
-                    true
-                }
-                R.id.navigation_save -> {
-                    // Handle navigation save selection
-                    findNavController().navigate(R.id.action_breakingNewsFragment_to_savedNewsFragment)
-                    true
-                }
-                R.id.navigation_settings -> {
-                    // Handle navigation settings selection
-                    findNavController().navigate(R.id.action_breakingNewsFragment_to_fragmentSettings)
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     // UPDATE THE BREAKING NEWS LIVE DATA IN VIEW MODEL
@@ -195,9 +172,8 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
     }
     override fun onItemClicked(position: Int, articleRequest: ArticleRequest) {
         val action = breakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(articleRequest)
-        findNavController().navigate(action)
+        view?.findNavController()?.navigate(action)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
