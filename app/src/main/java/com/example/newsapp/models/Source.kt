@@ -3,7 +3,9 @@ package com.example.newsapp.models
 import android.os.Parcel
 import android.os.Parcelable
 
-// NEWS SOURCE
+/** DATA CLASS SOURCE
+    This is responsible for getting the news source id and source name and
+    we make it parcelable here so that we can pass it using Intent**/
 data class Source(
     val id: String?,
     val name: String?

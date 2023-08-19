@@ -3,7 +3,9 @@ package com.example.newsapp.models
 import android.os.Parcel
 import android.os.Parcelable
 
-// FETCH DATA FROM API MODEL
+/** MODEL OF ARTICLE REQUEST
+  This is responsible for being the structure when fetching article from
+  the api **/
 data class ArticleRequest(
     val author: String?,
     val content: String?,

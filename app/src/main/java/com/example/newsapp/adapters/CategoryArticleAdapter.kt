@@ -19,6 +19,9 @@ import com.example.newsapp.R
 import com.example.newsapp.models.ArticleRequest
 import com.example.newsapp.utils.Constants
 
+/** RECYCLER VIEW FOR CATEGORY NEWS
+  This is responsible for displaying the list of news with title, image, etc.
+  in Home page for the context of Category News **/
 class CategoryArticleAdapter : RecyclerView.Adapter<ArticleCategoryHolder>() {
     var newsCategoryList = listOf<ArticleRequest>()
     private var itemListener : ItemClickListener? = null

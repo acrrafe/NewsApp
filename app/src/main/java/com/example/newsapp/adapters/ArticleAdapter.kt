@@ -20,7 +20,9 @@ import com.bumptech.glide.request.target.Target
 import com.example.newsapp.R
 import com.example.newsapp.models.ArticleRequest
 import com.example.newsapp.utils.Constants
-
+/** RECYCLER VIEW FOR BREAKING NEWS
+  This is responsible for displaying the list of news with title, image, etc.
+  in Home page for the content of Breaking News **/
 class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
     var newsList = listOf<ArticleRequest>()
     private var itemListener : ItemListener? = null
@@ -91,10 +93,6 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleHolder>() {
 interface ItemListener {
     fun onItemClicked(position: Int, articleRequest: ArticleRequest)
 }
-
-
-
-
 
 class ArticleHolder(itemView: View) : ViewHolder(itemView){
     val textTitle : TextView = itemView.findViewById(R.id.tvTitle)

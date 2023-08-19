@@ -1,5 +1,8 @@
 package com.example.newsapp.models
-// NEWS DATA
+
+/** MODEL OF ARTICLE RESPONSE
+    This is responsible for being the structure of every news in the API
+    that contains the list of Article that have been requested and it's status and results **/
 data class ArticleResponse(
     val articles: List<ArticleRequest>,
     val status: String,

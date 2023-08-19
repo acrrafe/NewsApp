@@ -3,7 +3,8 @@ package com.example.newsapp.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-// SAVE DATA FROM API MODEL
+/** MODEL OF ARTICLE RESPONSE
+    This is responsible for the structure of the saved article to the local database **/
 @Entity(tableName = "NEWSARTICLE")
 data class SavedArticle(
     @PrimaryKey(autoGenerate = true)
