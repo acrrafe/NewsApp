@@ -112,6 +112,7 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
             when (it){
                 is NetworkResult.Success->{
                     binding.paginationProgressBar.visibility = View.INVISIBLE
+                    binding.parentLayout.visibility = View.VISIBLE
                     it.data?.let{newsresponse->
                         addingResponselist = newsresponse.articles as ArrayList<ArticleRequest>
                         newsAdapter.setlist(newsresponse.articles)
@@ -134,20 +135,22 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
         viewModel.categoryResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it){
                 is NetworkResult.Success->{
-                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    binding.paginationProgressBarCateg.visibility = View.INVISIBLE
+                    binding.rvCategoryNews.visibility = View.VISIBLE
                     it.data?.let{newsresponse->
                         addingResponselist = newsresponse.articles as ArrayList<ArticleRequest>
                         newsCategoryAdapter.setCategorylist(newsresponse.articles)
                     }
                 }
                 is NetworkResult.Error->{
-                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    binding.paginationProgressBarCateg.visibility = View.INVISIBLE
                     it.message?.let{messsage->
                         Log.i("BREAKING FRAG", messsage.toString())
                     }
                 }
                 is NetworkResult.Loading->{
-                    binding.paginationProgressBar.visibility = View.VISIBLE
+                    binding.paginationProgressBarCateg.visibility = View.VISIBLE
+                    binding.rvCategoryNews.visibility = View.INVISIBLE
                 }
             }
         })

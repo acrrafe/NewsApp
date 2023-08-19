@@ -31,7 +31,11 @@
         android:id="@+id/fragmentDiscovery"
         android:name="com.example.newsapp.ui.fragmentDiscovery"
         android:label="fragment_discovery"
-        tools:layout="@layout/fragment_discovery" />
+        tools:layout="@layout/fragment_discovery" >
+        <action
+            android:id="@+id/action_fragmentDiscovery_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentSettings"
         android:name="com.example.newsapp.ui.fragmentSettings"
