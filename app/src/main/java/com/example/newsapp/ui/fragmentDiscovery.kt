@@ -68,8 +68,6 @@ class fragmentDiscovery : Fragment(), ItemClickListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
-
-
         })
     }
 

@@ -35,12 +35,15 @@ class NewsViewModel(private val newsRepository: NewsRepository, application: App
         val response = newsRepository.getCategoryNews(category)
         _categoryNewsLiveData.value = response
     }
-    private fun insertArticle (savedArticle: SavedArticle) {
+     fun insertArticle (savedArticle: SavedArticle) {
         insertNews(savedArticle)
     }
     private fun insertNews(savedArticle: SavedArticle) = viewModelScope.launch(Dispatchers.IO) {
         newsRepository.insertNews(savedArticle)
     }
+//    private fun deleteArticle(savedArticle: SavedArticle) = viewModelScope.launch { Dispatchers.IO
+//        newsRepository.deleteArticle(savedArticle)
+//    }
     private fun deleteAllArticles() {
         deleteAll()
     }

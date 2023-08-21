@@ -28,6 +28,10 @@ class NewsRepository(private val newsDao: NewsDao) {
         newsDao.deleteAllNews()
     }
 
+//    fun deleteArticle(){
+//        newsDao.deleteArticle(savedArticle: SavedArticle)
+//    }
+
     suspend fun getBreakingNews(code: String, pageNumber: Int): NetworkResult<ArticleResponse> {
         return withContext(Dispatchers.IO) {
             try {

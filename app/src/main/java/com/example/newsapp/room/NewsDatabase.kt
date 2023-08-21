@@ -16,7 +16,6 @@ abstract class NewsDatabase : RoomDatabase() {
 
     // INITIALIZED NEWSDAO AS AN ABSTRACT
     abstract  val newsDao: NewsDao
-
     // SINGLETON
     companion object{
         // THIS MAKES THE FIELD IMMEDIATELY VISIBILE TO OTHER THREAD
