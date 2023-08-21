@@ -11,8 +11,8 @@
         android:title="Discovery" />
     <item
         android:id="@+id/navigation_save"
-        android:icon="@drawable/ic_save"
-        android:title="Save" />
+        android:icon="@drawable/ic_bookmark"
+        android:title="Bookmark" />
 
     <item
         android:id="@+id/navigation_settings"
