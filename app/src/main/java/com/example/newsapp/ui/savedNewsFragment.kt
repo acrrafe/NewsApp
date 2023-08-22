@@ -1,19 +1,25 @@
 package com.example.newsapp.ui
 
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.adapters.SaveArticleAdapter
 import com.example.newsapp.databinding.FragmentSavedNewsBinding
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.room.NewsDatabase
+import com.example.newsapp.utils.SwipeToDeleteCallback
 import com.example.newsapp.viewmodel.NewsViewModel
 import com.example.newsapp.viewmodel.NewsViewModelFac
+import com.google.android.material.snackbar.Snackbar
+
 
 class savedNewsFragment : Fragment() {
 
@@ -44,6 +50,34 @@ class savedNewsFragment : Fragment() {
             setUpCategoryRecyclerView()
             newsSaveArticleAdapter.setSavedList(it)
         })
+
+        val itemTouchHelperCallback = object : SwipeToDeleteCallback(requireActivity().applicationContext) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val savedArticle = newsSaveArticleAdapter.newsSaveArticleList[position]
+                viewModel.deleteArticle(savedArticle)
+                Snackbar.make(view, "Successfully Deleted!", Snackbar.LENGTH_LONG).apply {
+                    setAction("Undo") {
+                        viewModel.insertArticle(savedArticle)
+                    }
+                    setActionTextColor(Color.WHITE)
+                    show()
+                }
+            }
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.saveRecNews)
+        }
+
     }
     private fun setUpCategoryRecyclerView() {
         newsSaveArticleAdapter = SaveArticleAdapter()

@@ -51,4 +51,8 @@ class NewsViewModel(private val newsRepository: NewsRepository, application: App
         newsRepository.deleteAll()
     }
 
+     fun deleteArticle(savedArticle: SavedArticle) = viewModelScope.launch(Dispatchers.IO){
+        newsRepository.deleteArticle(savedArticle)
+    }
+
 }

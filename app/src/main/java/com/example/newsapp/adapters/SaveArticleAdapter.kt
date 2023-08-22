@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -16,11 +18,25 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.newsapp.R
+import com.example.newsapp.models.ArticleRequest
 import com.example.newsapp.models.SavedArticle
 import com.example.newsapp.utils.Constants
 
 class SaveArticleAdapter : RecyclerView.Adapter<SavedArticleViewHolder>() {
     var newsSaveArticleList = listOf<SavedArticle>()
+
+
+    private val differCallback = object : DiffUtil.ItemCallback<SavedArticle>() {
+        override fun areItemsTheSame(oldItem: SavedArticle, newItem: SavedArticle): Boolean {
+            return oldItem.url == newItem.url
+        }
+
+        override fun areContentsTheSame(oldItem: SavedArticle, newItem: SavedArticle): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedArticleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.news_category_item_list, parent, false)
@@ -64,10 +80,10 @@ class SaveArticleAdapter : RecyclerView.Adapter<SavedArticleViewHolder>() {
         return newsSaveArticleList.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyItemInserted")
     fun setSavedList(articles: List<SavedArticle>) {
         this.newsSaveArticleList = articles
-        notifyDataSetChanged()
+        notifyItemInserted(newsSaveArticleList.size-1)
     }
 
 }

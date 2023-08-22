@@ -27,6 +27,9 @@ class NewsRepository(private val newsDao: NewsDao) {
     fun deleteAll(){
         newsDao.deleteAllNews()
     }
+    suspend fun deleteArticle(savedArticle: SavedArticle){
+        newsDao.deleteArticle(savedArticle)
+    }
 
 //    fun deleteArticle(){
 //        newsDao.deleteArticle(savedArticle: SavedArticle)

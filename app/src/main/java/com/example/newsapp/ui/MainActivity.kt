@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     navController.navigate(R.id.breakingNewsFragment)
+
                     true
                 }
                 R.id.navigation_discovery -> {
