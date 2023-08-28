@@ -53,7 +53,6 @@ class fragmentDiscovery : Fragment(), ItemClickListener {
         setUpCategoryRecyclerView()
         bindCategoryObservers()
 
-
         binding.searchNews.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -94,8 +93,9 @@ class fragmentDiscovery : Fragment(), ItemClickListener {
                 }
                 is NetworkResult.Error->{
                     binding.paginationProgressBarDisc.visibility = View.GONE
-                    it.message?.let{messsage->
-                        Log.i("BREAKING FRAG", messsage.toString())
+                    binding.errorMessage.visibility = View.VISIBLE
+                    it.message?.let{message->
+                        binding.errMessage.text = message
                     }
                 }
                 is NetworkResult.Loading->{
@@ -109,6 +109,11 @@ class fragmentDiscovery : Fragment(), ItemClickListener {
     override fun onItemClicked(position: Int, articleRequest: ArticleRequest) {
         val action = fragmentDiscoveryDirections.actionFragmentDiscoveryToArticleFragment(articleRequest)
         view?.findNavController()?.navigate(action)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }

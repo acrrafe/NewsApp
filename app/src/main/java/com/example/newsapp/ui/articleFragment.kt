@@ -1,5 +1,6 @@
 package com.example.newsapp.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.example.newsapp.models.Source
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.room.NewsDatabase
 import com.example.newsapp.utils.Constants
+import com.example.newsapp.utils.SharedPreferenceInstance
 import com.example.newsapp.viewmodel.NewsViewModel
 import com.example.newsapp.viewmodel.NewsViewModelFac
 import com.google.android.material.snackbar.Snackbar
@@ -33,6 +35,9 @@ class articleFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var stringCheck : String? = null
+
+    private lateinit var sharedPref: SharedPreferenceInstance
+    private var isNightMode: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +58,8 @@ class articleFragment : Fragment() {
 
         args = articleFragmentArgs.fromBundle(requireArguments())
 
+        sharedPref = SharedPreferenceInstance.getInstance(requireContext().applicationContext)
+
         val source = Source(args.article.source!!.id, args.article.source!!.name)
 
         binding.tvTitle.text = args.article.title
@@ -69,7 +76,19 @@ class articleFragment : Fragment() {
         binding.toolbar.saveIcon.setOnClickListener {
             viewModel.insertArticle(SavedArticle(0, args.article.description!!, args.article.publishedAt!!,
                 args.article.source!!, args.article.title!!, args.article.url!!, args.article.urlToImage!!))
-            Snackbar.make(view, "News Saved Successfully!", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(view, "News Saved Successfully!", Snackbar.LENGTH_SHORT).apply {
+                isNightMode = sharedPref.getBoolean("night", false)
+                if(!isNightMode){
+                    setBackgroundTint(Color.BLACK)
+                    setTextColor(Color.WHITE)
+                    setActionTextColor(Color.WHITE)
+                }else{
+                    setBackgroundTint(Color.WHITE)
+                    setTextColor(Color.BLACK)
+                    setActionTextColor(Color.BLACK)
+                }
+                show()
+            }
         }
 
         binding.toolbar.backIcon.setOnClickListener {

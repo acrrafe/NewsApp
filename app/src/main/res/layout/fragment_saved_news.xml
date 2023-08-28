@@ -16,9 +16,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginStart="10dp"
-            android:text="Bookmarks"
+            android:text="@string/savedNewsTitle"
             android:textSize="26sp"
             android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
             android:layout_gravity="center"/>
         <com.github.ybq.android.spinkit.SpinKitView
             android:id="@+id/paginationProgressBarDisc"

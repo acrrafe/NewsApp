@@ -8,7 +8,7 @@
 
    <LinearLayout
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
+       android:layout_height="wrap_content"
        android:orientation="vertical"
        android:layout_margin="12dp">
        
@@ -21,6 +21,31 @@
            app:queryBackground="@android:color/transparent"
            android:background="@drawable/disc_search_bg"/>
 
+       <LinearLayout
+           android:id="@+id/errorMessage"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="150dp"
+           android:visibility="gone"
+           android:orientation="vertical"
+           android:layout_gravity="center">
+           <ImageView
+               android:layout_width="150dp"
+               android:layout_height="150dp"
+               android:src="@drawable/ic_error_message"
+               android:layout_gravity="center"
+               app:tint="?attr/colorPrimary"/>
+           <TextView
+               android:id="@+id/errMessage"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               tools:text="No Internet Connection"
+               android:textColor="?attr/colorPrimary"
+               android:textSize="18sp"
+               android:layout_marginTop="8dp"
+               android:layout_gravity="center"/>
+       </LinearLayout>
+
        <com.github.ybq.android.spinkit.SpinKitView
            android:id="@+id/paginationProgressBarDisc"
            style="@style/SpinKitView.ThreeBounce"
@@ -29,7 +54,7 @@
            android:indeterminate="true"
            android:visibility="gone"
            android:layout_marginTop="200dp"
-           app:SpinKit_Color="@color/black"
+           app:SpinKit_Color="?attr/colorPrimary"
            android:layout_gravity="center"/>
 
        <androidx.recyclerview.widget.RecyclerView

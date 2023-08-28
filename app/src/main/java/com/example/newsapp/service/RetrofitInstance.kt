@@ -11,7 +11,6 @@ class RetrofitInstance {
     companion object{
 
         private val retrofit by lazy{
-
             // Log Retrofit Responses
             val logging  = HttpLoggingInterceptor()
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -20,8 +19,8 @@ class RetrofitInstance {
             Retrofit.Builder().baseUrl(Constants.BASE_URL).
             addConverterFactory(GsonConverterFactory.create()).
             client(client).build()
-
         }
+
         val api by lazy{
             retrofit.create(NewsAPI::class.java)
         }

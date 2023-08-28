@@ -54,6 +54,25 @@ class NewsRepository(private val newsDao: NewsDao) {
         }
     }
 
+    suspend fun getCountryWCategory(code: String, categoryName: String, pageNumber: Int): NetworkResult<ArticleResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = RetrofitInstance.api.getCountryWCategory(code, categoryName, pageNumber)
+                if (response.isSuccessful && response.body() != null) {
+                    NetworkResult.Success(response.body()!!)
+                } else if (response.errorBody() != null) {
+                    val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+                    val errorMessage = errorObj.getString("message") // Adjust the key according to your error response structure
+                    NetworkResult.Error(errorMessage)
+                } else {
+                    NetworkResult.Error("Something went wrong")
+                }
+            } catch (e: Exception) {
+                NetworkResult.Error("Network request failed: ${e.message}")
+            }
+        }
+    }
+
     suspend fun getCategoryNews(code: String): NetworkResult<ArticleResponse> {
         return withContext(Dispatchers.IO) {
             try {

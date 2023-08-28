@@ -1,6 +1,7 @@
 package com.example.newsapp.ui
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -24,22 +26,24 @@ import com.example.newsapp.models.ArticleRequest
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.room.NewsDatabase
 import com.example.newsapp.utils.NetworkResult
+import com.example.newsapp.utils.SharedPreferenceInstance
 import com.example.newsapp.viewmodel.NewsViewModel
 import com.example.newsapp.viewmodel.NewsViewModelFac
 
 class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
 
-    lateinit var viewModel : NewsViewModel
-
-    lateinit  var newsAdapter : ArticleAdapter
-    lateinit  var newsCategoryAdapter : CategoryArticleAdapter
-
-    private var isClicked: Boolean? = null
-
     private var _binding : FragmentBreakingNewsBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var viewModel : NewsViewModel
+    lateinit  var newsAdapter : ArticleAdapter
+    lateinit  var newsCategoryAdapter : CategoryArticleAdapter
     var addingResponselist = arrayListOf<ArticleRequest>()
+
+    private var isClicked: Boolean? = null
+    private lateinit var sharedPref: SharedPreferenceInstance
+    private var isNightMode: Boolean = false
+    private lateinit var settingCountry: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,55 +55,62 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPref = SharedPreferenceInstance.getInstance(requireContext().applicationContext)
+
+        sharedPref.let {
+            isNightMode = it.getBoolean("night", false)
+            settingCountry = it.getString("country", "us")
+            if(isNightMode){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+
         val dao = NewsDatabase.getInstance(requireActivity()).newsDao
         val repository = NewsRepository(dao)
         val factory = NewsViewModelFac(repository, requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[NewsViewModel::class.java]
 
-        val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val netInfo = cm.activeNetworkInfo
-        if (netInfo !=null && netInfo.isConnected){
-            isClicked = true
+            viewModel.getBreakingNews(settingCountry)
             setUpBreakinngRecyclerView()
             setUpCategoryRecyclerView()
             bindBreakingObservers()
             bindCategoryObservers()
-        }else{
-            Toast.makeText(activity, "No Internet", Toast.LENGTH_SHORT).show()
-        }
+
         binding.businessBtn.setOnClickListener{
             isClicked = true
-            viewModel.getCategory("business")
+            viewModel.getCountryWCategory(settingCountry, "business")
             setUpCategoryRecyclerView()
             bindCategoryObservers()
         }
         binding.sportBtn.setOnClickListener{
             isClicked = true
-            viewModel.getCategory("sports")
+            viewModel.getCountryWCategory(settingCountry,"sports")
             setUpCategoryRecyclerView()
             bindCategoryObservers()
         }
         binding.techBtn.setOnClickListener{
             isClicked = true
-            viewModel.getCategory("technology")
+            viewModel.getCountryWCategory(settingCountry,"technology")
             setUpCategoryRecyclerView()
             bindCategoryObservers()
         }
         binding.educBtn.setOnClickListener{
             isClicked = true
-            viewModel.getCategory("education")
+            viewModel.getCountryWCategory(settingCountry,"education")
             setUpCategoryRecyclerView()
             bindCategoryObservers()
         }
         binding.politicsBtn.setOnClickListener{
             isClicked = true
-            viewModel.getCategory("politics")
+            viewModel.getCountryWCategory(settingCountry,"politics")
             setUpCategoryRecyclerView()
             bindCategoryObservers()
         }
         binding.cryptoBtn.setOnClickListener{
             isClicked = true
-            viewModel.getCategory("crypto")
+            viewModel.getCountryWCategory(settingCountry,"crypto")
             setUpCategoryRecyclerView()
             bindCategoryObservers()
         }
@@ -111,7 +122,7 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
         viewModel.breakingNewsResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it){
                 is NetworkResult.Success->{
-                    binding.paginationProgressBar.visibility = View.INVISIBLE
+                    binding.paginationProgressBar.visibility = View.GONE
                     binding.parentLayout.visibility = View.VISIBLE
                     it.data?.let{newsresponse->
                         addingResponselist = newsresponse.articles as ArrayList<ArticleRequest>
@@ -119,9 +130,10 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
                     }
                 }
                 is NetworkResult.Error->{
-                    binding.paginationProgressBar.visibility = View.INVISIBLE
-                    it.message?.let{messsage->
-                        Log.i("BREAKING FRAG", messsage.toString())
+                    binding.paginationProgressBar.visibility = View.GONE
+                    binding.errorMessage.visibility = View.VISIBLE
+                    it.message?.let{message->
+                        binding.errMessage.text = message
                     }
                 }
                 is NetworkResult.Loading->{
@@ -132,7 +144,7 @@ class breakingNewsFragment : Fragment(), ItemListener, ItemClickListener{
     }
     // UPDATE THE CATEGORY NEWS LIVE DATA IN VIEW MODEL
     private fun bindCategoryObservers() {
-        viewModel.categoryResponseLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.countryWCategoryResponseLiveData.observe(viewLifecycleOwner, Observer {
             when (it){
                 is NetworkResult.Success->{
                     binding.paginationProgressBarCateg.visibility = View.INVISIBLE

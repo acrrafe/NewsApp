@@ -22,19 +22,21 @@
 
         <TextView
             android:id="@+id/tvSource"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Source"
+            android:text="@string/articleSource"
             android:textSize="16sp"
+            android:textColor="?attr/colorPrimary"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tvPublishedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Published At"
+            android:text="@string/articlePublish"
             android:textSize="16sp"
-            android:layout_marginStart="10dp" />
+            android:layout_marginStart="10dp"
+            android:textColor="?attr/colorPrimary"/>
     </LinearLayout>
 
     <TextView
@@ -42,11 +44,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="4"
-        android:text="TITLE"
+        android:text="@string/articleTitle"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/black"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
         android:lineSpacingMultiplier="1.0"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
@@ -81,7 +83,8 @@
         android:ellipsize="end"
         android:maxLines="5"
         android:textSize="16sp"
-        android:text="News Description"
+        android:text="@string/articleDesc"
+        android:textColor="?attr/colorPrimary"
         android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"

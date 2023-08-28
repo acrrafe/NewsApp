@@ -17,12 +17,41 @@
             android:layout_height="wrap_content"
             android:indeterminate="true"
             android:layout_marginTop="300dp"
-            android:visibility="gone"
-            app:SpinKit_Color="@color/black"
+            android:visibility="visible"
+            app:SpinKit_Color="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"  />
+
+        <LinearLayout
+            android:id="@+id/errorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="300dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_error_message"
+                android:layout_gravity="center"
+                app:tint="?attr/colorPrimary"/>
+            <TextView
+                android:id="@+id/errMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="No Internet Connection"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
@@ -35,9 +64,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
-                android:text="Breaking News"
+                android:text="@string/breakingNewsTitle"
                 android:textSize="26sp"
                 android:textStyle="bold"
+                android:textColor="?attr/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +108,8 @@
                         android:layout_marginTop="10dp"
                         android:textSize="14sp"
                         android:padding="10dp"
-                        android:text="Business"
+                        android:text="@string/breakingNewsBusiness"
+                        android:textColor="?attr/colorPrimary"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         app:icon="@drawable/ic_business"/>
                     <Button
@@ -88,7 +119,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:padding="10dp"
-                        android:text="Sports"
+                        android:text="@string/breakingNewsSports"
+                        android:textColor="?attr/colorPrimary"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         app:icon="@drawable/ic_sport"/>
                     <Button
@@ -98,7 +130,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:padding="10dp"
-                        android:text="Tech"
+                        android:text="@string/breakingNewsTech"
+                        android:textColor="?attr/colorPrimary"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         app:icon="@drawable/ic_tech"/>
                     <Button
@@ -108,7 +141,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:padding="10dp"
-                        android:text="Education"
+                        android:text="@string/breakingNewsEducation"
+                        android:textColor="?attr/colorPrimary"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         app:icon="@drawable/ic_business"/>
                     <Button
@@ -118,7 +152,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:padding="10dp"
-                        android:text="Politics"
+                        android:text="@string/breakingNewsPolitics"
+                        android:textColor="?attr/colorPrimary"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         app:icon="@drawable/ic_politics"/>
                     <Button
@@ -128,7 +163,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:padding="10dp"
-                        android:text="Crypto"
+                        android:text="@string/breakingNewsCrypto"
+                        android:textColor="?attr/colorPrimary"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         app:icon="@drawable/ic_business"/>
 
@@ -154,7 +190,7 @@
                 android:paddingBottom="50dp"
                 android:layout_marginTop="50dp"
                 android:visibility="gone"
-                app:SpinKit_Color="@color/black"
+                app:SpinKit_Color="?attr/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/rvCategoryNews" />

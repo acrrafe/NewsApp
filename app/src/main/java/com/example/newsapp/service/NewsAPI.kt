@@ -11,6 +11,11 @@ interface NewsAPI {
     @GET("v2/top-headlines")
     suspend fun getBreakingNews(@Query("country") countrycode: String = "us", @Query("page") pageNumber: Int = 1,
                                 @Query("apiKey") apiKey : String = API_KEY): Response<ArticleResponse>
+
+    @GET("v2/top-headlines")
+    suspend fun getCountryWCategory(@Query("country") countrycode: String = "us", @Query("category") categoryName: String = "business", @Query("page") pageNumber: Int = 1,
+                                @Query("apiKey") apiKey : String = API_KEY): Response<ArticleResponse>
+
     @GET("v2/everything")
     suspend fun getByCategory(@Query("q") category: String = "", @Query("apiKey")
         apiKey : String = API_KEY): Response<ArticleResponse>

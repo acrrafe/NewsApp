@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import com.example.newsapp.adapters.SaveArticleAdapter
 import com.example.newsapp.databinding.FragmentSavedNewsBinding
 import com.example.newsapp.repository.NewsRepository
 import com.example.newsapp.room.NewsDatabase
+import com.example.newsapp.utils.SharedPreferenceInstance
 import com.example.newsapp.utils.SwipeToDeleteCallback
 import com.example.newsapp.viewmodel.NewsViewModel
 import com.example.newsapp.viewmodel.NewsViewModelFac
@@ -28,6 +30,10 @@ class savedNewsFragment : Fragment() {
 
     lateinit var viewModel : NewsViewModel
     lateinit var newsSaveArticleAdapter : SaveArticleAdapter
+
+    private lateinit var sharedPref: SharedPreferenceInstance
+    private var isNightMode: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +51,7 @@ class savedNewsFragment : Fragment() {
         val factory = NewsViewModelFac(repository, requireActivity().application)
         viewModel = ViewModelProvider(this, factory)[NewsViewModel::class.java]
 
+        sharedPref = SharedPreferenceInstance.getInstance(requireContext().applicationContext)
 
         viewModel.getSavedNews.observe(viewLifecycleOwner, Observer {
             setUpCategoryRecyclerView()
@@ -59,7 +66,6 @@ class savedNewsFragment : Fragment() {
             ): Boolean {
                 return true
             }
-
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val savedArticle = newsSaveArticleAdapter.newsSaveArticleList[position]
@@ -68,12 +74,20 @@ class savedNewsFragment : Fragment() {
                     setAction("Undo") {
                         viewModel.insertArticle(savedArticle)
                     }
-                    setActionTextColor(Color.WHITE)
+                    isNightMode = sharedPref.getBoolean("night", false)
+                    if(!isNightMode){
+                        setBackgroundTint(Color.BLACK)
+                        setTextColor(Color.WHITE)
+                        setActionTextColor(Color.WHITE)
+                    }else{
+                        setBackgroundTint(Color.WHITE)
+                        setTextColor(Color.BLACK)
+                        setActionTextColor(Color.BLACK)
+                    }
                     show()
                 }
             }
         }
-
         ItemTouchHelper(itemTouchHelperCallback).apply {
             attachToRecyclerView(binding.saveRecNews)
         }
