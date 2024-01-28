@@ -1,6 +1,8 @@
-Welcome to NewsApp, an Android application that demonstrates fundamental Android development concepts including the Model-View-ViewModel (MVVM) Architecture Pattern, Room Database, Retrofit for network requests, RecyclerView for displaying lists, SharedPreferences for data storage, and Themes for UI customization.
+# **Welcome to NewsApp**
 
-Features
+NewsApp is an Android application that demonstrates fundamental Android development concepts including the Model-View-ViewModel (MVVM) Architecture Pattern, Room Database, Retrofit for network requests, RecyclerView for displaying lists, SharedPreferences for data storage, and Themes for UI customization.
+
+## Features
 1. MVVM Architecture: The app is built using the MVVM architecture, promoting separation of concerns and maintainability.
 
 2. Room Database: Utilizes Room to efficiently manage local data storage, providing seamless data access and persistence.
@@ -13,7 +15,7 @@ Features
 
 6. Themes: Demonstrates how to apply themes to customize the app's visual appearance.
 
-Getting Started
+## Getting Started
 1. Clone the repository to your local machine.
 
 2. Obtain a free API KEY from newsapi.org.
