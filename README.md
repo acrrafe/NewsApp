@@ -32,4 +32,4 @@ NewsApp is an Android application that demonstrates fundamental Android developm
 
 This project uses icons from [FlatIcon](https://www.flaticon.com/).
 
-Icons from Flaticon is "Designed by Freepik"
+All icons (PNG file) in the resource/drawable directories are from FlatIcon and are "Designed by Freepik".
