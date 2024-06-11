@@ -6,8 +6,8 @@ import java.util.*
 
 class Constants {
     companion object {
-        const val API_KEY = "INSERT_YOUR_API_KEY_HERE"
-        const val BASE_URL = "https://newsapi.org" // GET YOUR API KEY IN THIS LINK
+        const val API_KEY = "5433a242b82b427794652a07c7bdd887"
+        const val BASE_URL = "https://newsapi.org"
 
         fun DateFormat(oldstringDate: String?): String? {
             val newDate: String?
