@@ -26,3 +26,10 @@ NewsApp is an Android application that demonstrates fundamental Android developm
 
 5. Build and run the app on your Android emulator or device.
 
+
+
+## Attribution
+
+This project uses icons from [FlatIcon](https://www.flaticon.com/).
+
+Icons from Flaticon is "Designed by Freepik"
