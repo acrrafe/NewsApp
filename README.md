@@ -26,7 +26,12 @@ NewsApp is an Android application that demonstrates fundamental Android developm
 
 5. Build and run the app on your Android emulator or device.
 
+## Screenshot
+<p float="left">
+  <img src="https://github.com/acrrafe/NewsApp/assets/116049517/90f5d2c5-1436-42e3-aef1-2d36eee0b264" width="150", height="300" /> 
+  <img src="https://github.com/acrrafe/NewsApp/assets/116049517/b7c57df2-5709-447b-98d2-72e18ea2c964" width="150", height="300" />
 
+</p>
 
 ## Attribution
 
